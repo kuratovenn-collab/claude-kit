@@ -65,4 +65,4 @@ docs/                             research.md, tips.md, examples/<скилл>.md
 | fact-checker | готов: 2 раунда + контрольный прогон 3/3 (docs/examples/fact-checker.md) |
 | reviewers (+ 5 агентов) | готов: 2 раунда + контрольный раунд (docs/examples/reviewers.md) |
 | README, tips.md, CREDITS.md | готово |
-| Финальная проверка, PR | локальные проверки пройдены; PR в main — в работе |
+| Финальная проверка, PR | готово: локальные проверки пройдены, PR https://github.com/kuratovenn-collab/claude-kit/pull/1, CI зелёный |
