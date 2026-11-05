@@ -60,9 +60,9 @@ docs/                             research.md, tips.md, examples/<скилл>.md
 | idea-architect | готов: 2 раунда + доп. прогон (docs/examples/idea-architect.md) |
 | error-doctor | готов: 2 раунда качества (docs/examples/error-doctor.md) |
 | report-explainer | готов: 2 раунда качества (docs/examples/report-explainer.md) |
-| handoff | раунд 1 пройден, исправления внесены, раунд 2 прогнан — ждёт оценки |
-| brainstorm | раунд 1 пройден, исправления внесены, раунд 2 прогнан — ждёт оценки |
-| fact-checker | раунд 1 пройден, исправления внесены, идёт раунд 2 |
-| reviewers (+ 5 агентов) | раунд 1 пройден, исправления внесены, идёт раунд 2 |
+| handoff | готов: 2 раунда качества (docs/examples/handoff.md) |
+| brainstorm | 2 раунда пройдены, контрольный прогон срабатывания (docs/examples/brainstorm.md) |
+| fact-checker | раунд 2 прогнан — ждёт оценки |
+| reviewers (+ 5 агентов) | раунд 2 прогнан — ждёт оценки |
 | README, tips.md, CREDITS.md | написаны; финальная сверка — в конце |
 | Финальная проверка, PR | не начата |
