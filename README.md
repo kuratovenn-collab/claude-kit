@@ -19,7 +19,7 @@
 
 ## Установка в claude.ai (чат)
 
-Нужен любой план claude.ai (Free, Pro, Max, Team, Enterprise) и включённое выполнение кода.
+Подходит любой план claude.ai (Free, Pro, Max, Ultra, Team, Enterprise); нужно включённое выполнение кода.
 
 1. **Включите выполнение кода.** Settings (Настройки) → Capabilities → включите «Code execution and file creation» (в новом интерфейсе называется «Create and edit files»).
 2. **Скачайте архивы.** Откройте папку [`dist`](dist) этого репозитория, нажмите на нужный файл, например `critic.zip`, и затем кнопку скачивания (Download raw file). Распаковывать не нужно.
