@@ -54,7 +54,7 @@ docs/                             research.md, tips.md, examples/<скилл>.md
 |---|---|
 | Изучение (docs/research.md) | готово |
 | Инфраструктура (сборка, валидация, маркетплейс, CI) | в работе |
-| critic | не начат |
+| critic | черновик готов, идёт цикл качества (раунд 1) |
 | idea-architect | не начат |
 | error-doctor | не начат |
 | report-explainer | не начат |
