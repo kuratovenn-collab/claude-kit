@@ -124,7 +124,10 @@ python -m venv .venv
 - В cmd (не PowerShell) включать через `.venv\Scripts\activate.bat`.
 - VS Code не видит окружение → Ctrl+Shift+P → «Python: Select Interpreter» → выбрать `.venv`.
 
-**Профилактика:** папку `.venv` добавить в `.gitignore`; список библиотек хранить в `requirements.txt` (`python -m pip freeze > requirements.txt`).
+**Профилактика:** папку `.venv` добавить в `.gitignore`; список библиотек хранить в `requirements.txt`. В Windows PowerShell 5.1 сохранять его так (оператор `>` записал бы файл в кодировке UTF-16, и Git показал бы его как двоичный):
+```powershell
+python -m pip freeze | Out-File -Encoding utf8 requirements.txt
+```
 
 **Источник:** [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html).
 
@@ -138,11 +141,11 @@ python -m venv .venv
 
 **Причина:** политика выполнения PowerShell по умолчанию запрещает запуск `.ps1`-скриптов.
 
-**Исправление** (права администратора не нужны):
+**Исправление** (права администратора не нужны; `-Force` убирает вопрос подтверждения):
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 ```
-На вопрос подтверждения ответить `Y` (в русской локализации — `Д`). `RemoteSigned`: свои скрипты запускаются, скачанные из интернета — только подписанные. Это рекомендация из документации Python.
+Без `-Force` PowerShell спросит подтверждение — ответить `Y`. `RemoteSigned`: свои скрипты запускаются, скачанные из интернета — только подписанные. Это рекомендация из документации Python.
 
 **Не делать:** `Unrestricted` или `Bypass` для всей машины.
 
@@ -162,6 +165,8 @@ Get-ExecutionPolicy -List
 - `fatal: could not create work tree dir '…': Permission denied`
 - `error: unable to create file …: Permission denied`, `unable to write new index file`
 - Уведомление Windows «Несанкционированные изменения заблокированы» (Unauthorized changes blocked).
+
+**Как убедиться:** Безопасность Windows → Защита от вирусов и угроз → Журнал защиты (Protection history) — там будет запись «Доступ к защищённой папке заблокирован» с именем программы. Если на компьютере стоит сторонний антивирус (Kaspersky, ESET, Dr.Web и т. п.), встроенная защита Windows обычно отключена, и блокирует сам антивирус — разрешение нужно давать в его настройках.
 
 **Причина:** функция «Контролируемый доступ к папкам» (Controlled folder access — защита от программ-шантажистов) не даёт неизвестным программам (git.exe, python.exe) менять файлы в защищённых папках. Ещё одна частая помеха — синхронизация «Документов» с OneDrive, которая блокирует файлы во время записи.
 
@@ -198,10 +203,20 @@ Get-Acl D:\projects | Format-List Owner, AccessToString
 
 **Исправление**
 - Через проводник: правый клик по папке → Свойства → Безопасность → Дополнительно → Владелец: Изменить → ввести своё имя пользователя → отметить «Заменить владельца подконтейнеров и объектов» → ОК. Потребуются права администратора.
-- Или командой в PowerShell, **запущенной от администратора** (дать текущему пользователю полный доступ к папке и всему внутри):
+- Или командами в PowerShell, **запущенной от администратора**. Права (кто может читать и писать) и владелец (чья это папка) — разные вещи; Git проверяет именно **владельца** (раздел 10).
+  Сначала в **обычном** окне PowerShell узнайте свой логин (в окне администратора может оказаться другая учётная запись):
   ```powershell
-  icacls "D:\projects" /grant "${env:USERNAME}:(OI)(CI)F" /T
+  whoami
   ```
+  Получится что-то вроде `desktop-7q2k\anna`. Затем в окне администратора — сделать себя владельцем папки и всего внутри (`/C` — не останавливаться на отдельных ошибках):
+  ```powershell
+  icacls "D:\projects" /setowner "desktop-7q2k\anna" /T /C
+  ```
+  И при необходимости дать себе полный доступ:
+  ```powershell
+  icacls "D:\projects" /grant "desktop-7q2k\anna:(OI)(CI)F" /T /C
+  ```
+  Команду `takeown /D Y` лучше не использовать: ответ на её вопрос зависит от языка Windows, и на русской системе `Y` может не сработать.
 
 **Профилактика:** не запускать редактор и терминал от администратора без нужды; проекты держать на NTFS-диске.
 
@@ -217,7 +232,13 @@ Get-Acl D:\projects | Format-List Owner, AccessToString
 
 **Причина:** venv хранит **абсолютные пути** к своей старой папке (в скриптах активации и в `pip.exe`). venv нельзя переносить — его пересоздают.
 
-**Исправление** (в папке проекта; удаляется только папка окружения, код не трогается):
+**Исправление** (в папке проекта; удаляется только папка окружения, код не трогается).
+
+Сначала сохраните список библиотек (python.exe окружения после переноса обычно ещё работает, ломаются pip.exe и скрипты активации):
+```powershell
+.\.venv\Scripts\python.exe -m pip freeze | Out-File -Encoding utf8 requirements-old.txt
+```
+Затем (`deactivate` — только если окружение сейчас включено):
 ```powershell
 deactivate
 Remove-Item -Recurse -Force .\.venv
@@ -225,7 +246,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 ```
-Если `requirements.txt` нет — сначала посмотреть, какие библиотеки были: в старой папке `.venv\Lib\site-packages` (имена папок) или по `import` в коде; поставить их заново.
+Если `requirements.txt` нет — используйте сохранённый `requirements-old.txt`. Если и сохранить не удалось — посмотрите `import` в коде и поставьте библиотеки заново.
 
 **Проверка:** `python -c "import sys; print(sys.prefix)"` показывает новый путь; программа запускается.
 
@@ -277,7 +298,7 @@ To add an exception for this directory, call:
 **Причина:** Git отказывается работать в папке, владелец которой — другой пользователь (защита от уязвимости CVE-2022-24765). Бывает на других дисках, на флешках с FAT32/exFAT (там владельца нет), в папках, созданных от администратора, в репозиториях, скопированных с другого компьютера.
 
 **Исправление**
-- Лучше — исправить владельца папки (раздел 7).
+- Лучше — сделать себя владельцем папки (раздел 7, команда `icacls … /setowner`). Это не сработает на флешках FAT32/exFAT — там владельцев нет, остаётся только вариант ниже.
 - Если папка ваша и вы ей доверяете — выполнить ту команду, которую подсказал сам Git, **с путём из сообщения** (прямые слэши `/`, как у Git):
   ```powershell
   git config --global --add safe.directory 'D:/projects/repo'
@@ -297,11 +318,11 @@ To add an exception for this directory, call:
 error: Your local changes to the following files would be overwritten by merge:
 Please commit your changes or stash them before you merge.
 ```
-Исправление — сохранить свои изменения, потом забрать чужие:
+Исправление — сохранить свои изменения, потом забрать чужие (`--no-edit` — чтобы Git не открывал текстовый редактор для сообщения о слиянии):
 ```powershell
 git add -A
 git commit -m "Мои изменения"
-git pull
+git pull --no-edit
 ```
 Или временно отложить: `git stash`, затем `git pull`, затем `git stash pop`.
 
@@ -321,8 +342,9 @@ Automatic merge failed; fix conflicts and then commit the result.
 Исправление: открыть файл (в VS Code есть кнопки «Accept Current / Incoming / Both»), оставить нужный текст, **удалить все метки**, затем:
 ```powershell
 git add app.py
-git commit
+git commit --no-edit
 ```
+Если всё же открылся непонятный редактор с текстом «Merge branch…» (это Vim) — наберите `:wq` и нажмите Enter.
 Передумали — вернуть всё как было до pull: `git merge --abort`.
 
 **в) Git просит выбрать способ**
@@ -332,7 +354,7 @@ fatal: Need to specify how to reconcile divergent branches.
 Для новичка проще всего слияние (merge):
 ```powershell
 git config --global pull.rebase false
-git pull
+git pull --no-edit
 ```
 
 **г) Push отклонён**
