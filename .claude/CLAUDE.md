@@ -58,11 +58,11 @@ docs/                             research.md, tips.md, examples/<скилл>.md
 | Инфраструктура (сборка, валидация, маркетплейс, CI) | готово |
 | critic | готов: 2 раунда качества (docs/examples/critic.md) |
 | idea-architect | готов: 2 раунда + доп. прогон (docs/examples/idea-architect.md) |
-| error-doctor | раунд 1 пройден, исправления внесены, ждёт раунда 2 |
-| report-explainer | раунд 1 пройден, исправления внесены, ждёт раунда 2 |
-| handoff | черновик готов, идёт раунд 1 |
-| brainstorm | черновик готов, идёт раунд 1 |
-| fact-checker | черновик готов, идёт раунд 1 |
-| reviewers (+ 5 агентов) | черновик готов, идёт раунд 1 |
-| README, tips.md, CREDITS.md | README и CREDITS.md написаны; tips.md — в работе |
+| error-doctor | готов: 2 раунда качества (docs/examples/error-doctor.md) |
+| report-explainer | готов: 2 раунда качества (docs/examples/report-explainer.md) |
+| handoff | раунд 1 пройден, исправления внесены, раунд 2 прогнан — ждёт оценки |
+| brainstorm | раунд 1 пройден, исправления внесены, раунд 2 прогнан — ждёт оценки |
+| fact-checker | раунд 1 пройден, исправления внесены, идёт раунд 2 |
+| reviewers (+ 5 агентов) | раунд 1 пройден, исправления внесены, идёт раунд 2 |
+| README, tips.md, CREDITS.md | написаны; финальная сверка — в конце |
 | Финальная проверка, PR | не начата |

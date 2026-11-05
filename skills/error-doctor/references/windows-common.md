@@ -19,6 +19,7 @@
 9. При копировании проекта потерялась скрытая папка .git
 10. Git: «detected dubious ownership»
 11. Конфликты при git pull
+12. ModuleNotFoundError: библиотека установлена, но не находится
 
 ---
 
@@ -181,6 +182,8 @@ git clone https://github.com/<владелец>/<репозиторий>.git
 
 **Проверка:** повторить `git clone` — ошибок и уведомлений нет.
 
+Если команда `Get-MpPreference` (показывает настройки встроенного антивируса) выдаёт ошибку — скорее всего, стоит сторонний антивирус и встроенный отключён; пришлите текст ошибки.
+
 **Профилактика:** все проекты — в `C:\dev` или `C:\Users\<имя>\code`.
 
 **Источник:** [Controlled folder access (Microsoft Learn)](https://learn.microsoft.com/defender-endpoint/controlled-folders).
@@ -276,7 +279,7 @@ Test-Path .git
   `robocopy` возвращает коды 0–7 при успехе (1 — «файлы скопированы»), это не ошибка.
 - Если старой `.git` нет, но проект есть на GitHub — склонировать заново в новую папку, затем перенести туда свои изменённые файлы (без папки `.git`), проверить `git status`.
 
-**Проверка:** `git status` и `git log --oneline -3` работают.
+**Проверка:** `git status` и `git log --oneline -3` работают; `git status` пишет «On branch main» / «На ветке main».
 
 **Профилактика:** включить показ скрытых элементов (Проводник → Вид → «Скрытые элементы»); переносить проект через `git clone`, а не копированием.
 
@@ -305,7 +308,7 @@ To add an exception for this directory, call:
   ```
 - **Не использовать** `safe.directory '*'` — это отключает защиту для всех папок.
 
-**Проверка:** `git status` работает без ошибки.
+**Проверка:** `git status` работает без ошибки и начинается с «On branch …» / «На ветке …».
 
 **Источник:** [git-config: safe.directory](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory).
 
@@ -364,8 +367,45 @@ Updates were rejected because the remote contains work that you do not have loca
 ```
 Сначала `git pull` (при конфликте — пункт «б»), потом `git push`. **Не использовать** `git push --force` — это сотрёт чужие изменения на сервере.
 
-**Проверка:** `git status` пишет «nothing to commit, working tree clean» / «нечего коммитить», `git log --oneline -5` показывает коммит слияния.
+**Проверка:** `git status` пишет «nothing to commit, working tree clean» / «нечего коммитить, нет изменений в рабочем каталоге», `git log --oneline -5` показывает коммит слияния.
 
 **Профилактика:** перед началом работы — `git pull`; коммитить часто и небольшими порциями.
 
 **Источник:** [git-pull](https://git-scm.com/docs/git-pull), [Basic merge conflicts (Pro Git)](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging).
+
+---
+
+## 12. ModuleNotFoundError: библиотека установлена, но не находится
+
+**Симптомы:** `ModuleNotFoundError: No module named 'requests'` (или другая библиотека), хотя «вчера ставил».
+
+**Причины** (по вероятности)
+1. Библиотека стоит в виртуальном окружении, а оно сейчас не включено (новое окно PowerShell — окружение нужно включать заново).
+2. На компьютере несколько Python: `pip` ставит в один, `python` запускает другой.
+3. Редактор (VS Code, PyCharm) запускает другой интерпретатор (программу, которая выполняет код), чем терминал.
+
+**Диагностика** (в папке проекта)
+```powershell
+python -c "import sys; print(sys.executable)"
+```
+```powershell
+where.exe python
+```
+```powershell
+python -m pip show requests
+```
+Первая — какой Python запускается сейчас; вторая — сколько их найдено (несколько строк = несколько Python); третья — стоит ли библиотека именно в этот Python (`WARNING: Package(s) not found` — нет).
+
+**Исправление**
+- Есть папка `.venv` — включить окружение: `.\.venv\Scripts\Activate.ps1` (ошибка «выполнение сценариев отключено» — раздел 5).
+- Поставить библиотеку в тот Python, который запускает программу:
+  ```powershell
+  python -m pip install requests
+  ```
+- VS Code: Ctrl+Shift+P → «Python: Select Interpreter» → выбрать Python из `.venv`.
+
+**Проверка:** `python -c "import requests; print(requests.__version__)"` печатает номер версии.
+
+**Профилактика:** один проект — одно окружение `.venv`; ставить библиотеки только командой `python -m pip install …` при включённом окружении; список — в `requirements.txt` (раздел 4).
+
+**Источник:** [Installing packages using pip and virtual environments](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/), [venv](https://docs.python.org/3/library/venv.html).
