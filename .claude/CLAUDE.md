@@ -61,8 +61,8 @@ docs/                             research.md, tips.md, examples/<скилл>.md
 | error-doctor | готов: 2 раунда качества (docs/examples/error-doctor.md) |
 | report-explainer | готов: 2 раунда качества (docs/examples/report-explainer.md) |
 | handoff | готов: 2 раунда качества (docs/examples/handoff.md) |
-| brainstorm | 2 раунда пройдены, контрольный прогон срабатывания (docs/examples/brainstorm.md) |
-| fact-checker | раунд 2 прогнан — ждёт оценки |
-| reviewers (+ 5 агентов) | раунд 2 прогнан — ждёт оценки |
-| README, tips.md, CREDITS.md | написаны; финальная сверка — в конце |
-| Финальная проверка, PR | не начата |
+| brainstorm | готов: 2 раунда + контрольный прогон (docs/examples/brainstorm.md) |
+| fact-checker | готов: 2 раунда + контрольный прогон 3/3 (docs/examples/fact-checker.md) |
+| reviewers (+ 5 агентов) | готов: 2 раунда + контрольный раунд (docs/examples/reviewers.md) |
+| README, tips.md, CREDITS.md | готово |
+| Финальная проверка, PR | локальные проверки пройдены; PR в main — в работе |
