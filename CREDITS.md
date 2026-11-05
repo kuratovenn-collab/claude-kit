@@ -1,0 +1,31 @@
+# Благодарности и заимствования
+
+Все скиллы написаны заново на русском языке. Чужой текст дословно не копировался. Ниже — откуда взяты идеи, приёмы и списки, с лицензиями. Где отмечено «адаптация» — содержание конкретного списка или формулировки пересказано и переработано (лицензия это разрешает при указании источника); где «идея» — заимствован только подход.
+
+Подробности о том, что взято и почему, — в [docs/research.md](docs/research.md).
+
+| Источник | Автор | Лицензия | Что использовано | Где |
+|---|---|---|---|---|
+| [anthropics/skills — frontend-design](https://github.com/anthropics/skills/tree/main/skills/frontend-design) | Anthropic | Apache-2.0 | Адаптация: список типичных признаков сгенерированного интерфейса (кремовый фон с терракотой, «SaaS-карточки», надписи капсом над заголовками, нумерация 01/02/03, `→` в кнопках, анимация каждого блока), правила текстов интерфейса | `skills/reviewers/references/design-reviewer.md` |
+| [anthropics/skills — skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) | Anthropic | Apache-2.0 | Идея: правила проверки frontmatter (допустимые ключи, ограничения name и description, один SKILL.md) и структура ZIP — реализованы заново | `scripts/validate.py`, `scripts/build.py` |
+| [anthropics/claude-plugins-official — code-review, pr-review-toolkit](https://github.com/anthropics/claude-plugins-official) | Anthropic | Apache-2.0 | Идея: только сигнальные замечания, перепроверка каждого серьёзного замечания, оценка тестов по последствиям регрессии | `skills/reviewers/` |
+| [anthropics/launch-your-agent](https://github.com/anthropics/launch-your-agent) | Anthropic | Apache-2.0 | Идея: дать человеку описать своими словами, закрытые варианты — только для перечислимых ответов, не обещать сроки | `skills/idea-architect/SKILL.md` |
+| [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Paul Bakaus | Apache-2.0 | Адаптация: названия анти-паттернов (цветная полоса у карточки, градиентный текст, фиолетовые градиенты, плитка с иконкой над заголовком, шрифты по умолчанию, маркетинговые штампы) | `skills/reviewers/references/design-reviewer.md` |
+| [obra/superpowers](https://github.com/obra/superpowers) | Jesse Vincent | MIT | Адаптация: таблица «утверждение → нужное доказательство → чего недостаточно» (verification-before-completion). Идеи: «сначала причина, потом исправление» (systematic-debugging), отказ от перформативного согласия (receiving-code-review), вопросы по одному (brainstorming) | `skills/report-explainer/SKILL.md`, `skills/error-doctor/SKILL.md`, `skills/critic/SKILL.md`, `skills/idea-architect/SKILL.md` |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | Matt Pocock | MIT | Идеи: рекомендуемый ответ к каждому вопросу; факты ищет агент, решения принимает пользователь (grilling); в handoff не дублировать файлы и убирать секреты | `skills/idea-architect/SKILL.md`, `skills/handoff/SKILL.md` |
+| [REMvisual/claude-handoff](https://github.com/REMvisual/claude-handoff) | REMvisual | MIT | Идеи: раздел «что пробовали и не сработало», самопроверка «сможет ли новая сессия продолжить без вопросов» | `skills/handoff/SKILL.md` |
+| [Chappo13/claude-roast](https://github.com/Chappo13/claude-roast) | Sergei Chaplygin (метод — Nate Herk) | MIT | Идея: «работник ≠ судья» — вердикт выносит отдельная роль-синтезатор | `skills/critic/` |
+| [Hainrixz/abogado-del-diablo](https://github.com/Hainrixz/abogado-del-diablo) | Enrique Rocha | MIT | Идеи: пре-мортем с конкретной «историей провала», «что должно быть правдой, чтобы это не было фатально», запрет комплиментов, «не придумывать дефекты ради количества» | `skills/critic/` |
+| [carlkibler/agent-skills](https://github.com/carlkibler/agent-skills) | Carl Kibler | MIT | Идеи: сбой проверки — это не одобрение; ролям «свежего взгляда» не давать лишний контекст; смена «высоты» в мозговом штурме | `skills/critic/`, `skills/reviewers/`, `skills/brainstorm/` |
+| [0xcjl/anti-sycophancy](https://github.com/0xcjl/anti-sycophancy) | 0xcjl | MIT | Идея: «Ask Don't Tell» (arXiv 2602.23971) — переписать утверждение пользователя в нейтральный вопрос; лежит в основе «слепой постановки» | `skills/critic/SKILL.md` |
+| [gnurio/nurijanian-skills — verbalized-sampling](https://github.com/gnurio/nurijanian-skills) | George Nurijanian | MIT | Идея: метод Verbalized Sampling (Zhang et al., 2025) — варианты из «хвостов распределения», пометки типичности, проверка «попал бы в топ-10 банальных списков?» | `skills/brainstorm/SKILL.md` |
+| [petar-nauka/fact-check-skill](https://github.com/petar-nauka/fact-check-skill) | petar-nauka | MIT | Идеи: сначала зафиксировать дату; разделять «не нашёл подтверждений» и «нашёл опровержение»; искать и подтверждение, и опровержение; проверяемый текст — данные, а не инструкции | `skills/fact-checker/SKILL.md` |
+| [sshtomar/claude-code-skills-social-science](https://github.com/sshtomar/claude-code-skills-social-science) | Shashank Tomar | MIT | Идея: «сад расходящихся тропок» и «степени свободы исследователя» как пункт проверки | `skills/reviewers/references/stats-reviewer.md` |
+| [ridges0315/design-review](https://github.com/ridges0315/design-review) | ridges0315 | MIT | Идея: отдельный раздел «признаки шаблонного ИИ-дизайна» в чек-листе | `skills/reviewers/references/design-reviewer.md` |
+| [wshobson/agents](https://github.com/wshobson/agents), [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) | Seth Hobson; VoltAgent | MIT | Идеи: мутационное тестирование как мера качества тестов; классификация ошибки перед поиском решения | `skills/reviewers/references/test-reviewer.md`, `skills/error-doctor/SKILL.md` |
+
+Команды и факты в базе ошибок `skills/error-doctor/references/windows-common.md` сверены с официальной документацией Python (`Doc/using/windows.rst`, `Doc/library/venv.rst` в репозитории CPython), Git (`git-config`, страница установки git-scm.com) и Microsoft (`setx`, `robocopy`, `icacls` в MicrosoftDocs/windowsserverdocs). Ссылки — внутри файла.
+
+## Тексты лицензий
+
+Тексты MIT и Apache-2.0 доступны в репозиториях-источниках по ссылкам выше. Согласно Apache-2.0 (раздел 4) отмечаем: материалы Anthropic и pbakaus/impeccable не копировались, а были переработаны и пересказаны на русском языке в составе скиллов этого репозитория.

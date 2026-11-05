@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "claude/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Установить PyYAML
+        run: pip install pyyaml==6.0.2
+
+      - name: Проверить скиллы, агентов, манифесты и ZIP (scripts/validate.py)
+        run: python scripts/validate.py
+
+      - name: Проверить, что dist/*.zip и agents/*.md совпадают с исходниками
+        run: python scripts/build.py --check
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Установить Claude Code (только для валидатора, без входа в аккаунт)
+        run: npm install -g @anthropic-ai/claude-code@2.1.311
+
+      - name: claude plugin validate (плагин, агенты, скиллы) --strict
+        run: claude plugin validate . --strict
+
+      - name: claude plugin validate (маркетплейс) --strict
+        run: claude plugin validate .claude-plugin/marketplace.json --strict
+
+      - name: Пересобрать ZIP с нуля и проверить распаковку
+        run: |
+          rm -rf dist
+          python scripts/build.py
+          python scripts/validate.py
+          for z in dist/*.zip; do
+            name=$(basename "$z" .zip)
+            tmp=$(mktemp -d)
+            unzip -q "$z" -d "$tmp"
+            test -f "$tmp/$name/SKILL.md" || { echo "В $z нет $name/SKILL.md"; exit 1; }
+            test "$(ls -A "$tmp")" = "$name" || { echo "В корне $z лишнее: $(ls -A "$tmp")"; exit 1; }
+            echo "OK $z -> $name/SKILL.md"
+          done
+
+      - name: Выложить свежие ZIP как артефакт сборки
+        uses: actions/upload-artifact@v6
+        with:
+          name: skills-zip
+          path: dist/*.zip
+          if-no-files-found: error
