@@ -17,6 +17,8 @@
 
 Ревьюеры в Claude Code — это ещё и пять субагентов: `code-reviewer`, `test-reviewer`, `stats-reviewer`, `privacy-security-reviewer`, `design-reviewer`.
 
+**Если скилл не включился сам.** Claude решает, подключать ли скилл, по его описанию, и иногда отвечает без него — особенно на короткие просьбы вроде «просто подтверди одной строкой». Тогда назовите скилл явно: «используй скилл fact-checker» (в чате claude.ai) или `/kit:fact-checker …` (в Claude Code с плагином; если скилл загружен через claude.ai — `/fact-checker`).
+
 ## Установка в claude.ai (чат)
 
 Подходит любой план claude.ai (Free, Pro, Max, Ultra, Team, Enterprise); нужно включённое выполнение кода.
