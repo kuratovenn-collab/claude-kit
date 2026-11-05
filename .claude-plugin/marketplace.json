@@ -1,0 +1,15 @@
+{
+  "name": "kuratovenn-kit",
+  "description": "Маркетплейс с одним плагином kit — личная библиотека скиллов на русском.",
+  "owner": {
+    "name": "kuratovenn"
+  },
+  "plugins": [
+    {
+      "name": "kit",
+      "source": "./",
+      "description": "Критик, распаковщик идей, разбор ошибок, объяснение отчётов, handoff, мозговой штурм, проверка фактов, ревьюеры.",
+      "category": "productivity"
+    }
+  ]
+}

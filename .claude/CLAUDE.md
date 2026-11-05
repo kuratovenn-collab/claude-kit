@@ -7,6 +7,7 @@
 ```
 .claude-plugin/marketplace.json   маркетплейс (имя: kuratovenn-kit), один плагин «kit» с source "./"
 .claude-plugin/plugin.json        манифест плагина kit (корень репозитория = корень плагина)
+.claude/CLAUDE.md                 этот файл (лежит в .claude/, потому что CLAUDE.md в корне плагина валидатор считает ошибкой в режиме --strict)
 skills/<имя>/SKILL.md             скиллы (+ references/ — вспомогательные файлы)
 agents/<ревьюер>.md               субагенты Claude Code — ГЕНЕРИРУЮТСЯ из skills/reviewers/references/
 dist/<имя>.zip                    архивы для claude.ai — ГЕНЕРИРУЮТСЯ скриптом

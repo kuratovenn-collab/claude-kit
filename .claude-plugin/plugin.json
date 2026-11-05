@@ -1,0 +1,22 @@
+{
+  "name": "kit",
+  "displayName": "Kit — личные скиллы",
+  "version": "1.0.0",
+  "description": "Личная библиотека скиллов на русском: критик без поддакивания, распаковщик идей и составитель промтов, разбор ошибок под Windows, объяснение отчётов, выжимка для новой сессии, мозговой штурм, проверка фактов и ревьюеры (код, тесты, статистика, безопасность, дизайн).",
+  "author": {
+    "name": "kuratovenn"
+  },
+  "homepage": "https://github.com/kuratovenn-collab/claude-kit",
+  "repository": "https://github.com/kuratovenn-collab/claude-kit",
+  "license": "MIT",
+  "keywords": [
+    "russian",
+    "critic",
+    "prompts",
+    "review",
+    "fact-check",
+    "brainstorm",
+    "handoff",
+    "windows"
+  ]
+}
